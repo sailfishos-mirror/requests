@@ -110,7 +110,7 @@ if TYPE_CHECKING:
     HeadersType: TypeAlias = CaseInsensitiveDict[str] | Mapping[str, str | bytes]
     HeadersUpdateType: TypeAlias = Mapping[str, str | bytes | None]
 
-    CookiesType: TypeAlias = RequestsCookieJar | Mapping[str, str]
+    CookiesType: TypeAlias = RequestsCookieJar | CookieJar | None
 
     # Building blocks for FilesType
     _FileName: TypeAlias = str | None

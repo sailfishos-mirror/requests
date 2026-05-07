@@ -40,13 +40,11 @@ class MockRequest:
     probably want `get_cookie_header`, defined below.
     """
 
-    type: str
-
     def __init__(self, request: PreparedRequest) -> None:
         assert _is_prepared(request)
         self._r = request
         self._new_headers: dict[str, str] = {}
-        self.type = urlparse(self._r.url).scheme
+        self.type: str = urlparse(self._r.url).scheme
 
     def get_type(self) -> str:
         return self.type

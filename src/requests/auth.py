@@ -85,17 +85,14 @@ class AuthBase:
 class HTTPBasicAuth(AuthBase):
     """Attaches HTTP Basic Authentication to the given Request object."""
 
-    username: bytes | str
-    password: bytes | str
-
     @overload
     def __init__(self, username: str, password: str) -> None: ...
     @overload
     def __init__(self, username: bytes, password: bytes) -> None: ...
 
     def __init__(self, username: bytes | str, password: bytes | str) -> None:
-        self.username = username
-        self.password = password
+        self.username: bytes | str = username
+        self.password: bytes | str = password
 
     def __eq__(self, other: object) -> bool:
         return all(
@@ -124,25 +121,16 @@ class HTTPProxyAuth(HTTPBasicAuth):
 class HTTPDigestAuth(AuthBase):
     """Attaches HTTP Digest Authentication to the given Request object."""
 
-    username: bytes | str
-    password: bytes | str
-    _thread_local: threading.local
-    last_nonce: str
-    nonce_count: int
-    chal: dict[str, str]
-    pos: int | None
-    num_401_calls: int | None
-
     @overload
     def __init__(self, username: str, password: str) -> None: ...
     @overload
     def __init__(self, username: bytes, password: bytes) -> None: ...
 
     def __init__(self, username: bytes | str, password: bytes | str) -> None:
-        self.username = username
-        self.password = password
+        self.username: bytes | str = username
+        self.password: bytes | str = password
         # Keep state in per-thread local storage
-        self._thread_local = threading.local()
+        self._thread_local: threading.local = threading.local()
 
     def init_per_thread_state(self) -> None:
         # Ensure state is initialized just once per-thread

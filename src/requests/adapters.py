@@ -190,14 +190,6 @@ class HTTPAdapter(BaseAdapter):
         "_pool_block",
     ]
 
-    max_retries: Retry
-    config: dict[str, Any]
-    proxy_manager: dict[str, Any]
-    _pool_connections: int
-    _pool_maxsize: int
-    _pool_block: bool
-    poolmanager: _PoolManager
-
     def __init__(
         self,
         pool_connections: int = DEFAULT_POOLSIZE,
@@ -206,18 +198,19 @@ class HTTPAdapter(BaseAdapter):
         pool_block: bool = DEFAULT_POOLBLOCK,
     ) -> None:
         if max_retries == DEFAULT_RETRIES:
-            self.max_retries = Retry(0, read=False)
+            self.max_retries: Retry = Retry(0, read=False)
         else:
             self.max_retries = Retry.from_int(max_retries)
-        self.config = {}
-        self.proxy_manager = {}
+        self.config: dict[str, Any] = {}
+        self.proxy_manager: dict[str, Any] = {}
 
         super().__init__()
 
-        self._pool_connections = pool_connections
-        self._pool_maxsize = pool_maxsize
-        self._pool_block = pool_block
+        self._pool_connections: int = pool_connections
+        self._pool_maxsize: int = pool_maxsize
+        self._pool_block: bool = pool_block
 
+        self.poolmanager: _PoolManager
         self.init_poolmanager(pool_connections, pool_maxsize, block=pool_block)
 
     def __getstate__(self) -> dict[str, Any]:

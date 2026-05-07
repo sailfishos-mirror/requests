@@ -44,14 +44,12 @@ class CaseInsensitiveDict(MutableMapping[str, _VT], Generic[_VT]):
     behavior is undefined.
     """
 
-    _store: OrderedDict[str, tuple[str, _VT]]
-
     def __init__(
         self,
         data: Mapping[str, _VT] | Iterable[tuple[str, _VT]] | None = None,
         **kwargs: _VT,
     ) -> None:
-        self._store = OrderedDict()
+        self._store: OrderedDict[str, tuple[str, _VT]] = OrderedDict()
         if data is None:
             data = {}
         self.update(data, **kwargs)
@@ -96,10 +94,8 @@ class CaseInsensitiveDict(MutableMapping[str, _VT], Generic[_VT]):
 class LookupDict(dict[str, _VT]):
     """Dictionary lookup object."""
 
-    name: Any
-
     def __init__(self, name: Any = None) -> None:
-        self.name = name
+        self.name: bytes | str = name
         super().__init__()
 
     def __repr__(self) -> str:

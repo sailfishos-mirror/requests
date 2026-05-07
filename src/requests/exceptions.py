@@ -22,14 +22,11 @@ class RequestException(IOError):
     request.
     """
 
-    response: Response | None
-    request: Request | PreparedRequest | None
-
     def __init__(self, *args: Any, **kwargs: Any) -> None:
         """Initialize RequestException with `request` and `response` objects."""
         response: Response | None = kwargs.pop("response", None)
-        self.response = response
-        self.request = kwargs.pop("request", None)
+        self.response: Response | None = response
+        self.request: Request | PreparedRequest | None = kwargs.pop("request", None)
         if response is not None and not self.request and hasattr(response, "request"):
             self.request = response.request
         super().__init__(*args, **kwargs)

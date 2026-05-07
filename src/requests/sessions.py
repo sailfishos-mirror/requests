@@ -411,19 +411,6 @@ class Session(SessionRedirectMixin):
       <Response [200]>
     """
 
-    headers: CaseInsensitiveDict[str]
-    auth: _t.AuthType
-    proxies: dict[str, str]
-    hooks: dict[str, list[_t.HookType]]
-    params: MutableMapping[str, Any]
-    stream: bool
-    verify: _t.VerifyType
-    cert: _t.CertType
-    max_redirects: int
-    trust_env: bool
-    cookies: RequestsCookieJar
-    adapters: MutableMapping[str, BaseAdapter]
-
     __attrs__: list[str] = [
         "headers",
         "cookies",
@@ -443,27 +430,27 @@ class Session(SessionRedirectMixin):
         #: A case-insensitive dictionary of headers to be sent on each
         #: :class:`Request <Request>` sent from this
         #: :class:`Session <Session>`.
-        self.headers = default_headers()
+        self.headers: CaseInsensitiveDict[str] = default_headers()
 
         #: Default Authentication tuple or object to attach to
         #: :class:`Request <Request>`.
-        self.auth = None
+        self.auth: _t.AuthType = None
 
         #: Dictionary mapping protocol or protocol and host to the URL of the proxy
         #: (e.g. {'http': 'foo.bar:3128', 'http://host.name': 'foo.bar:4012'}) to
         #: be used on each :class:`Request <Request>`.
-        self.proxies = {}
+        self.proxies: dict[str, str] = {}
 
         #: Event-handling hooks.
-        self.hooks = default_hooks()
+        self.hooks: dict[str, list[_t.HookType]] = default_hooks()
 
         #: Dictionary of querystring data to attach to each
         #: :class:`Request <Request>`. The dictionary values may be lists for
         #: representing multivalued query parameters.
-        self.params = {}
+        self.params: MutableMapping[str, Any] = {}
 
         #: Stream response content default.
-        self.stream = False
+        self.stream: bool = False
 
         #: SSL Verification default.
         #: Defaults to `True`, requiring requests to verify the TLS certificate at the
@@ -475,30 +462,30 @@ class Session(SessionRedirectMixin):
         #: Only set this to `False` for testing.
         #: If verify is set to a string, it must be the path to a CA bundle file
         #: that will be used to verify the TLS certificate.
-        self.verify = True
+        self.verify: _t.VerifyType = True
 
         #: SSL client certificate default, if String, path to ssl client
         #: cert file (.pem). If Tuple, ('cert', 'key') pair.
-        self.cert = None
+        self.cert: _t.CertType = None
 
         #: Maximum number of redirects allowed. If the request exceeds this
         #: limit, a :class:`TooManyRedirects` exception is raised.
         #: This defaults to requests.models.DEFAULT_REDIRECT_LIMIT, which is
         #: 30.
-        self.max_redirects = DEFAULT_REDIRECT_LIMIT
+        self.max_redirects: int = DEFAULT_REDIRECT_LIMIT
 
         #: Trust environment settings for proxy configuration, default
         #: authentication and similar.
-        self.trust_env = True
+        self.trust_env: bool = True
 
         #: A CookieJar containing all currently outstanding cookies set on this
         #: session. By default it is a
         #: :class:`RequestsCookieJar <requests.cookies.RequestsCookieJar>`, but
         #: may be any other ``cookielib.CookieJar`` compatible object.
-        self.cookies = cookiejar_from_dict({})
+        self.cookies: RequestsCookieJar = cookiejar_from_dict({})
 
         # Default connection adapters.
-        self.adapters = OrderedDict()
+        self.adapters: MutableMapping[str, BaseAdapter] = OrderedDict()
         self.mount("https://", HTTPAdapter())
         self.mount("http://", HTTPAdapter())
 
