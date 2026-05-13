@@ -109,8 +109,7 @@ if TYPE_CHECKING:
         bytes | str | Iterable[bytes | str] | SupportsRead[bytes | str] | None
     )
 
-    HeadersType: TypeAlias = CaseInsensitiveDict[str] | Mapping[str, str | bytes]
-    HeadersUpdateType: TypeAlias = Mapping[str, str | bytes | None]
+    HeadersType: TypeAlias = MutableMapping[str, str | bytes] | None
 
     CookiesType: TypeAlias = RequestsCookieJar | Mapping[str, str]
 
@@ -151,7 +150,7 @@ if TYPE_CHECKING:
     # TypedDicts for Unpack kwargs (PEP 692)
 
     class BaseRequestKwargs(TypedDict, total=False):
-        headers: Mapping[str, str | bytes] | None
+        headers: HeadersType
         cookies: RequestsCookieJar | CookieJar | dict[str, str] | None
         files: FilesType
         auth: AuthType

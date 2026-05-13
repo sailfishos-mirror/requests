@@ -83,6 +83,7 @@ from .utils import (
 )
 
 if TYPE_CHECKING:
+    from collections.abc import MutableMapping
     from http.cookiejar import CookieJar
 
     from typing_extensions import Self
@@ -310,7 +311,7 @@ class Request(RequestHooksMixin):
 
     method: str | None
     url: _t.UriType | None
-    headers: CaseInsensitiveDict[str] | Mapping[str, str | bytes] | None
+    headers: MutableMapping[str, str | bytes]
     files: _t.FilesType
     data: _t.DataType
     json: _t.JsonType
@@ -322,7 +323,7 @@ class Request(RequestHooksMixin):
         self,
         method: str | None = None,
         url: _t.UriType | None = None,
-        headers: Mapping[str, str | bytes] | None = None,
+        headers: _t.HeadersType = None,
         files: _t.FilesType = None,
         data: _t.DataType = None,
         params: _t.ParamsType = None,
